@@ -1,0 +1,10 @@
+inventory_risk_analysis:
+  target: dev
+  outputs:
+    dev:
+      type: snowflake
+      role: DBT_ROLE
+      warehouse: DBT_WH
+      database: INVENTORY_DB
+      schema: RAW
+      threads: 8
