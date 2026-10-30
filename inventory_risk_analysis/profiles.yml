@@ -3,6 +3,9 @@ inventory_risk_analysis:
   outputs:
     dev:
       type: snowflake
+      account: LX40611
+      user: ngupta
+      password: "{{ env_var('SNOWFLAKE_PASSWORD')}}"
       role: DBT_ROLE
       warehouse: DBT_WH
       database: INVENTORY_DB

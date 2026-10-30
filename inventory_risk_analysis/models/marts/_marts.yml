@@ -1,0 +1,40 @@
+version: 2
+
+models:
+  - name: dim_articles
+    description: "Article dimension."
+    columns:
+      - name: article_id
+        description: "Primary key."
+        tests: [not_null, unique]
+
+  - name: dim_distribution_centers
+    description: "Distribution centre dimension."
+    columns:
+      - name: dc_id
+        description: "Primary key."
+        tests: [not_null, unique]
+
+  - name: fct_inventory_risk
+    description: "Daily inventory risk per article and DC, with days of cover and risk status."
+    columns:
+      - name: stock_sales_key
+        description: "Surrogate key: snapshot_date + article_id + dc_id."
+        tests: [not_null, unique]
+      - name: article_id
+        tests:
+          - not_null
+          - relationships:
+              to: ref('dim_articles')
+              field: article_id
+      - name: dc_id
+        tests:
+          - not_null
+          - relationships:
+              to: ref('dim_distribution_centers')
+              field: dc_id
+      - name: risk_status
+        description: "EXCESS, HEALTHY, STOCKOUT_RISK or NO_ACTIVITY."
+        tests:
+          - accepted_values:
+              values: ['EXCESS', 'HEALTHY', 'STOCKOUT_RISK', 'NO_ACTIVITY']
